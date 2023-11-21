@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        h2  {
+            color: cadetblue;
+        }
+        input   {
+            height: 30px;
+            width: 300px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            float: right;
+        }
+        tr , td {
+            width: 100%;
+        }
+        td{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        button {
+            height: 30px;
+            float: inherit;
+        }
+    </style>
+</head>
+<body>
+<center>
+    <h2>FORM ADD PRODUCT</h2>
+
+    <form th:action="@{/products/update/{id}(id=${product.getId()})}" method="post" th:object="${product}" enctype="multipart/form-data">
+        <table>
+
+            <tr>
+                <td><label for="name">Name : </label><input id="name" type="text" th:field="*{name}" placeholder="Name">
+                </td>
+                <td><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+
+            </tr>
+            <tr>
+                <td><label for="color">Quantity : </label>
+                    <input id="color" type="text" th:field="*{quantity}" placeholder="Quantity">
+                </td>
+                <td><span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span></td>
+
+            </tr>
+            <tr>
+                <td><label for="image">Image : </label><input id="image" type="file" th:field="*{image}" placeholder="Image"></td>
+            </tr>
+            <tr>
+                <td><label for="123">Description : </label>
+                    <input id ="123" type="text" th:field="*{description}" placeholder="Description">
+                </td>
+                <td>  <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span></td>
+
+            </tr>
+            <tr>
+                <td><label for="223">Manufacture: </label><input id ="223" type="text" th:field="*{manufacture}" placeholder="Manufacture"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        <select th:field="*{category.id}">
+                            <option th:each="cate: ${category}" th:value="${cate.id}" th:text="${cate.name}"></option>
+                        </select>
+                    </label>
+                    <!--          <label for="323">Category Id: </label>-->
+                    <!--          <input id ="323" type="text" th:field="*{category.id}" placeholder="Category Id">-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</center>
+</body>
+</html>
