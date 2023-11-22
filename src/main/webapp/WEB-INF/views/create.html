@@ -65,14 +65,13 @@
         <td><label for="223">Manufacture : </label><input id ="223" type="text" th:field="*{manufacture}" placeholder="Manufacture"></td>
       </tr>
       <tr>
+
         <td>
           <label for="select">Category : </label>
             <select th:field="*{category.id}" id="select" style="height: 30px;">
               <option th:each="cate: ${category}" th:value="${cate.id}" th:text="${cate.name}"></option>
             </select>
 
-          <!--          <label for="323">Category Id: </label>-->
-<!--          <input id ="323" type="text" th:field="*{category.id}" placeholder="Category Id">-->
         </td>
       </tr>
       <tr>

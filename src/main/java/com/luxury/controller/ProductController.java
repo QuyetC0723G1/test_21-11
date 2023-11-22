@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +38,10 @@ public class ProductController {
     @GetMapping("")
     public ModelAndView showHome(@PageableDefault(value = 3)Pageable pageable){
         Page<Product> products = productService.findAll(pageable);
+        Iterable<Category> categories = categoryService.findAll();
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("products",products);
+        modelAndView.addObject("category",categories);
         return modelAndView;
     }
     @GetMapping("/create")
@@ -119,6 +122,27 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("q")Optional<String> q,@PageableDefault(value = 3) Pageable pageable,@RequestParam(required=false,value = "categories")List<Category> categories){
+        Iterable<Product> products = null;
+        Iterable<Category> listCat = categoryService.findAll();
+        if(categories == null){
+            products = productService.findByNameOnly(pageable,q.get());
+        }else{
+            products = productService.findByName(pageable,q.get(),categories);
+        }
+        ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("category",listCat);
+        return modelAndView;
+    }
 
+    @GetMapping("/find")
+    public ModelAndView searchByCate(@RequestParam(value = "categories")List<Category> categories, @PageableDefault(value = 3) Pageable pageable ){
+        Page<Product> products = productService.findByCategoryIn(pageable,categories);
+        ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("products",products);
+        return modelAndView;
+    }
 
 }
